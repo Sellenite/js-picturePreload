@@ -1,12 +1,14 @@
 $(function () {
-    // 无序图片预加载
+    // 图片预加载
     function Preload(imgs, options) {
         this.imgs = typeof imgs === 'string' ? [imgs] : imgs
         this.options = $.extend({}, Preload.DEFAULT, options)
         // 调用原型链方法
         if (this.options.order === 'ordered') {
+        	// 有序
             this._ordered()
         } else {
+        	// 无序
             this._unordered()
         }
     }
@@ -39,19 +41,18 @@ $(function () {
 
         orderedLoad()
 
-        // 有序预加载
         function orderedLoad() {
             var imgObj = new Image()
 
             $(imgObj).on('load error', function () {
+            	// 传出内部变量count
                 options.each && options.each(count)
                 if (count >= len) {
-                    // 所有加载完毕后做的事
                     options.all && options.all()
                 } else {
+                	// 递归调用加载图片
                     orderedLoad()
                 }
-
                 count++
             })
 
